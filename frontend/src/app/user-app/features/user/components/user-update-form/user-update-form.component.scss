@@ -1,0 +1,12 @@
+:host ::ng-deep label {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+}
+
+:host ::ng-deep form input{
+    margin-bottom: 5px;
+}
+
+:host ::ng-deep .form-btn {
+    max-width: 125px;
+}

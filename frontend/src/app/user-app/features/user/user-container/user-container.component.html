@@ -1,0 +1,60 @@
+<p-confirmDialog #cd  [style]="{width: '50vw'}" header="Confirmação para Deleção" icon="pi pi-exclamation-triangle" acceptButtonStyleClass="p-button-text"
+  rejectButtonStyleClass="p-button-text">
+  <p-footer>
+    <p-button (click)="cd.accept()"  styleClass="p-button-text" icon="pi pi-check" label="Sim"></p-button>
+    <p-button (click)="cd.reject()" styleClass="p-button-outlined" icon="pi pi-times" label="Não" class="p-button-danger"></p-button>
+  </p-footer>
+</p-confirmDialog>
+
+<p-table [value]="items" [columns]="displayedColumns">
+    <ng-template pTemplate="header">
+      <tr>
+        <th colspan="3" class="table-title">
+            <h3>Lista de Usuários</h3>
+            <br>
+            <button class="add-button" pButton icon="pi pi-plus" label="Adicionar Usuário" (click)="onNew()"></button>
+        </th>
+        <th></th>
+        <th>
+        </th>
+      </tr>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Cargo</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+      <tr>
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.cargo }}</td>
+        <td><p-button icon="pi pi-user-edit" (onClick)="onUpdate(user.id)" ></p-button></td>
+        <td><p-button icon="pi pi-trash" styleClass="p-button-danger" (onClick)="onDelete(user)"></p-button></td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+          <td class="text-center"> Não há usuários cadastrados, Clique no botão <b>"Adicionar Usuário"</b> e preencha as informações necessarias</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </ng-template>
+  </p-table>
+
+  <p-dialog [(visible)]="showCreateForm" [modal]="true" appendTo="body" (onHide)="hideCreateModal()" [resizable]="false"
+  [style]="{ width: '50vw' }" header="Cadastro de Usuário" [keepInViewport]="true" [draggable]="false">
+  <div class="col-12">
+     <app-user-create-form></app-user-create-form>
+  </div>
+</p-dialog>
+<p-dialog [(visible)]="showUpdateForm" [modal]="true" appendTo="body" (onHide)="hideUpdateModal()" [resizable]="false"
+  [style]="{ width: '50vw' }" header="Atualização de Usuário" [keepInViewport]="true" [draggable]="false">
+  <div class="col-12">
+    <app-user-update-form></app-user-update-form>
+  </div>
+</p-dialog>

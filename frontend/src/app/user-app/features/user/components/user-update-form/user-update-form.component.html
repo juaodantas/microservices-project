@@ -1,0 +1,103 @@
+<div class="p-fluid">
+    <form [formGroup]="updateForm">
+      <div class="col-12 flex-column">
+        <div class="p-field">
+          <label for="name">Nome</label>
+          <input id="name" name="name" type="text" formControlName="nameControl" [ngClass]="'ng-dirty'" pInputText
+            aria-describedby="name-help" />
+          <!-- Aqui é o campo de validação do formulário -->
+          <div *ngIf="
+                      updateForm?.get('nameControl').invalid &&
+                      (updateForm?.get('nameControl').dirty ||
+                      updateForm?.get('nameControl').touched)
+                      ">
+            <small id="name-help" class="p-error" *ngIf="updateForm?.get('nameControl').errors?.required">Este
+              campo é obrigatório.</small>
+          </div>
+          <!-- Aqui é o campo de validação do formulário -->
+          <div *ngIf="
+                      updateForm?.get('nameControl').invalid &&
+                      (updateForm?.get('nameControl').dirty ||
+                      updateForm?.get('nameControl').errors?.minlength)
+                      ">
+            <small id="name-help" class="p-error">Este campo requer mais
+              de dois caracteres.</small>
+          </div>
+
+
+          <label for="senha">Senha</label>
+          <input id="senha" name="senha" type="password" formControlName="senhaControl" [ngClass]="'ng-dirty'" pInputText
+            aria-describedby="senha-help"  />
+          <!-- Aqui é o campo de validação do formulário -->
+          <div *ngIf="
+                      updateForm?.get('senhaControl').invalid &&
+                      (updateForm?.get('senhaControl').dirty ||
+                      updateForm?.get('senhaControl').touched)
+                      ">
+            <small id="senha-help" class="p-error" *ngIf="updateForm?.get('senhaControl').errors?.required">Este
+              campo é obrigatório.</small>
+          </div>
+          <!-- Aqui é o campo de validação do formulário -->
+          <div *ngIf="
+                      updateForm?.get('senhaControl').invalid &&
+                      (updateForm?.get('senhaControl').dirty ||
+                      updateForm?.get('senhaControl').errors?.minlength)
+                      ">
+            <small id="senha-help" class="p-error">Este campo requer mais
+              de dois caracteres.</small>
+          </div>
+
+
+
+          <label for="name">E-mail</label>
+          <input id="email" name="email" type="text" formControlName="emailControl" [ngClass]="'ng-dirty'" pInputText
+            aria-describedby="name-help" />
+          <!-- Aqui é o campo de validação do formulário -->
+          <div *ngIf="
+                      updateForm.get('emailControl').invalid &&
+                      (updateForm.get('emailControl').dirty ||
+                      updateForm.get('emailControl').touched)
+                      ">
+            <small id="email-help" class="p-error" *ngIf="createForm.get('emailControl').errors?.required">Este
+              campo é obrigatório.</small>
+          </div>
+          <!-- Aqui é o campo de validação do formulário -->
+          <div *ngIf="
+                      updateForm.get('emailControl').invalid &&
+                      (updateForm.get('emailControl').dirty ||
+                      updateForm.get('emailControl').errors?.minlength)
+                      ">
+            <small id="email-help" class="p-error">Este campo requer mais
+              de dois caracteres.</small>
+          </div>
+
+          <label for="name">Cargo</label>
+          <input id="cargo" name="cargo" type="text" formControlName="cargoControl" [ngClass]="'ng-dirty'" pInputText
+            aria-describedby="cargo-help" />
+          <!-- Aqui é o campo de validação do formulário -->
+          <div *ngIf="
+                      updateForm.get('cargoControl').invalid &&
+                      (updateForm.get('cargoControl').dirty ||
+                      updateForm.get('cargoControl').touched)
+                      ">
+            <small id="cargo-help" class="p-error" *ngIf="updateForm.get('cargoControl').errors?.required">Este
+              campo é obrigatório.</small>
+          </div>
+          <!-- Aqui é o campo de validação do formulário -->
+          <div *ngIf="
+                      updateForm.get('cargoControl').invalid &&
+                      (updateForm.get('cargoControl').dirty ||
+                      updateForm.get('cargoControl').errors?.minlength)
+                      ">
+            <small id="cargo-help" class="p-error">Este campo requer mais
+              de dois caracteres.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <button class="form-btn" pButton pRipple [disabled]="!updateForm.valid" label="SALVAR" type="button"
+          type="submit" (click)="onSubmit()"></button>
+      </div>
+    </form>
+  </div>

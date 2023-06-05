@@ -1,0 +1,122 @@
+version: '3'
+
+services:
+  ############################## api1 ###################################
+  api1:
+    container_name: microservico-1
+    build:
+      context: ./microservico-1
+      dockerfile: Dockerfile   
+    ports:
+      - 3000:3000
+    networks:
+      - app-net
+    depends_on:
+      - kafka
+    environment:
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+
+  db1:
+    container_name: db-1
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_USER: pguser
+      POSTGRES_PASSWORD: pgpassword
+      POSTGRES_DB: microservices1
+    ports:
+      - "54326:5432"
+    networks:
+      - app-net
+    volumes:
+      - postgres_data1:/var/lib/postgresql/data
+
+  ############################## api2 ###################################
+  api2:
+    container_name: microservico-2
+    build:
+      context: ./microservico-2
+      dockerfile: Dockerfile   
+    ports:
+      - 3004:3004
+    networks:
+      - app-net
+    depends_on:
+      - kafka
+    environment:
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+
+  db2:
+    container_name: db-2
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_USER: pguser
+      POSTGRES_PASSWORD: pgpassword
+      POSTGRES_DB: microservices2
+    ports:
+      - "54328:5432"
+    networks:
+      - app-net
+    volumes:
+      - postgres_data2:/var/lib/postgresql/data
+
+  ############################## frontend ###################################
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile   
+    ports:
+      - 8084:80
+    networks:
+      - app-net
+
+  ############################## kafka ###################################
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 2181:2181
+    networks:
+      - app-net
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - 29092:29092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - app-net
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui
+    container_name: kafka-ui
+    ports:
+      - "8080:8080"
+    restart: always
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
+      - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    external:
+      name: external-networks
+
+volumes:
+  postgres_data1: 
+  postgres_data2:

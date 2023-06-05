@@ -1,0 +1,27 @@
+<p-dialog [(visible)]="showDetails" [modal]="true" appendTo="body" [resizable]="false"
+  [style]="{ width: '50vw' }" header="Detalhes do Log" [keepInViewport]="true" [draggable]="false">
+  <div class="col-12">
+    <app-logs-details [log]="logAtual"></app-logs-details>
+  </div>
+</p-dialog>
+
+<div class="card">
+    <p-timeline *ngIf="items.length > 0; else emptyState" [value]="items" align="alternate" styleClass="customized-timeline">
+      <ng-template pTemplate="marker" let-log>
+        <i ngClass="pi pi-circle"></i>
+      </ng-template>
+      <ng-template pTemplate="content" let-log>
+        <p-card [header]="log.action" [subheader]="log.timestamp | date:'dd/MM/yyyy'">
+          <button pButton label="Ver mais" (click)="openDetails(log)" class="p-button-text"></button>
+        </p-card>
+      </ng-template>
+    </p-timeline>
+
+    <ng-template #emptyState>
+      <div class="empty-message">
+       <p> Não há dados disponíveis, Tente  <b> criar, deletar ou atualizar </b> um usuário. Essas funcionalidades criam logs para o sistema
+       </p>
+    </div>
+    </ng-template>
+  </div>
+
